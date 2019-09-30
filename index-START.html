@@ -10,7 +10,9 @@
   </div>
 
 <script>
-  window.SpeechRecognition = window.webkitSpeechRecognition;
+  // This only works in Google Chrome!!!
+
+  window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
   // create new instance of speech recognition
   const recognition = new SpeechRecognition();
@@ -22,7 +24,7 @@
   words.appendChild(p);
 
   // listen for results instead of click
-  recognition.addEventListener('results', e => {
+  recognition.addEventListener('result', e => {
     console.log(e.results);
     const transcript = Array.from(e.results)
       .map(result => result[0]) // return the first thing
@@ -32,7 +34,7 @@
       p.textContent = transcript;
       // this adds paragraphs without overwriting anything:
       if(e.results[0].isFinal) {
-        p = docuemt.createElement('p');
+        p = document.createElement('p');
         words.appendChild(p);
       }
       if(transcript.includes('get the weather')) {
@@ -43,7 +45,7 @@
 
   recognition.addEventListener('end', recognition.start); // starts event listener again after a pause in speech
 
-  recognition.start(e);
+  recognition.start();
 
 
 </script>
